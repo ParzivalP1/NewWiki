@@ -17,6 +17,7 @@ subprojects {
     apply plugin: 'io.spring.dependency-management'
 
     version rootProject.version
+    group rootProject.group
 
     repositories {
         mavenCentral()
