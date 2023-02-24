@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("crawler")
 public class Controller {
@@ -13,6 +15,8 @@ public class Controller {
 
     @Autowired
     private RestTemplate template;
+    @Autowired
+    private LinkExtractor extractor;
 
     @GetMapping("/hello")
     public String getBook() {
@@ -21,9 +25,9 @@ public class Controller {
     }
 
     @GetMapping("/url")
-    public String test(@RequestParam String address) {
+    public List<String> test(@RequestParam String address) {
         logger.info("test address {}", address);
         var response = template.getForEntity(address, String.class);
-        return response.getBody();
+        return extractor.getLinks(response.getBody());
     }
 }
